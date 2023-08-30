@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\DisplayController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +13,18 @@ use App\Http\Controllers\DisplayController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+//viewの()の間に書くのは、resourse/viewsフォルダー配下のblade名を書く
+Route::get('/', function () {
+    return view('home');
+});
 
-Route::get('/', [DisplayController::class, 'index']);
+// Route::get('/', [ResourceController::class, 'index']);
 
+// resouceのコントローラーのルート
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/ownermain_form', [HomeController::class, 'ownermainForm'])->name('owner.main');
+
+Route::resource('products', 'ProductController');
