@@ -50,6 +50,12 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('carts.index') }}">{{ __('カートの中') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('users.index') }}">{{ __('マイページ') }}</a>
+                                </li>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>

@@ -84,9 +84,16 @@ class ProductController extends Controller
     {
         $products = Product::where('id' ,$product['id'])->first();
         
-        return view('owner.ownerpost_detail', [
-            'product' => $products,
-        ]);
+        if(Auth::user()->role == 0){
+            return view('owner.ownerpost_detail', [
+                'product' => $products,
+            ]);
+        } else {
+            return view('user.post_detail', [
+                'product' => $products,
+            ]);
+        }
+       
     }
 
     /**
@@ -115,36 +122,36 @@ class ProductController extends Controller
     // 編集のページ遷移を処理をするメソッド
     public function update(Request $request, Product $product)
     {
-                // ディレクトリ名
-                $dir = 'sample';
-                
-                // $product = Product::where('id' ,$product['id'])->first();
-               
-                // アップロードされたファイル名を取得
-                if($request['image'] != null){
-
-                $file_name = $request->file('image')->getClientOriginalName();
-
-                // 取得したファイル名で保存
-                $request->file('image')->storeAs('public/' . $dir, $file_name);
-                $product->image = 'storage/' . $dir . '/' . $file_name;
-                } else {
-                    $product->image=$product['image'];
-                }
-             
+        // ディレクトリ名
+        $dir = 'sample';
         
-                $product->user_id = 1;
-                $product->name = $request->name;
-                $product->amount = $request->amount;
-                $product->text = $request->text;
+        // $product = Product::where('id' ,$product['id'])->first();
+        
+        // アップロードされたファイル名を取得
+        if($request['image'] != null){
 
-                
-               
-                $product->save();
-                $products = Product::where('id' ,$product['id'])->first();
-                return view('owner.ownerpost_detail', [
-                    'product' => $products,
-                ]);
+        $file_name = $request->file('image')->getClientOriginalName();
+
+        // 取得したファイル名で保存
+        $request->file('image')->storeAs('public/' . $dir, $file_name);
+        $product->image = 'storage/' . $dir . '/' . $file_name;
+        } else {
+            $product->image=$product['image'];
+        }
+        
+
+        $product->user_id = 1;
+        $product->name = $request->name;
+        $product->amount = $request->amount;
+        $product->text = $request->text;
+
+        
+        
+        $product->save();
+        $products = Product::where('id' ,$product['id'])->first();
+        return view('owner.ownerpost_detail', [
+            'product' => $products,
+        ]);
     }
 
     /**
@@ -156,7 +163,11 @@ class ProductController extends Controller
     // 削除するメソッド
     public function destroy(Product $product)
     {
-    
+        $products = Product::where('id' ,$product['id'])->first();
+
+        $products->delete();
+
+        return redirect('products');
     
     }
 }

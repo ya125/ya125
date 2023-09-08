@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
+use App\Product;
 
 class HomeController extends Controller
 {
@@ -28,7 +29,13 @@ class HomeController extends Controller
         if(Auth::user()->role == 0){
             return view('owner/ownerpage');
         } else{
-            return view('home');
+            $product = new Product;
+        
+            $all = $product->all();
+    
+            return view('user.main', [
+                'products' => $all,
+            ]);
         }
     }
 
@@ -37,4 +44,10 @@ class HomeController extends Controller
         return view('owner/owner_main');
         
     }
+  
+    public function userlist(){
+        return view('owner/user_list');
+    }
+
+    
 }

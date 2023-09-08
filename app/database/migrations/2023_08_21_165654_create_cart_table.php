@@ -22,6 +22,7 @@ class CreateCartTable extends Migration
             $table->string('post_code', '100')->nullable();
             $table->string('address', '100')->nullable();
             $table->integer('category')->default(0);
+            $table->integer('number');
             $table->timestamps();
         });
     }

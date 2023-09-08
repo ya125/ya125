@@ -26,5 +26,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/ownermain_form', [HomeController::class, 'ownermainForm'])->name('owner.main');
+Route::get('/user_list', [HomeController::class, 'userlist'])->name('user.list');
 
 Route::resource('products', 'ProductController');
+Route::resource('carts', 'CartController');
+Route::resource('users', 'UserController');
+Route::resource('reviews', 'ReviewController');
