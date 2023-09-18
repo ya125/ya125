@@ -9,6 +9,15 @@
                 </div>
                 <div class="card-body">
                     <div class="card-body">
+                        @if($errors->any())
+                        <div class='alert alert-danger'>
+                            <ul>
+                                @foreach($errors->all() as $message)
+                                <li>{{ $message }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <form action="{{ route('carts.update',['cart' => $carts['id']]) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
@@ -32,13 +41,13 @@
                             </div> 
                             
                             <label for='name'>氏名</label>
-                                <input type='text' class='form-control' name='name'/>
+                                <input type='text' class='form-control' name='name' value="{{ old('name') }}"/>
                             <label for='tel' class='mt-2'>電話番号</label>
-                                <input type='text' class='form-control' name='tel'/>
+                                <input type='text' class='form-control' name='tel' value="{{ old('tel') }}"/>
                             <label for='post_code' class='mt-2'>郵便番号</label>
-                                <input type='text' class='form-control' name='post_code'/>
+                                <input type='text' class='form-control' name='post_code' value="{{ old('post_code') }}"/>
                             <label for='address' class='mt-2'>住所</label>
-                                <input type='text' class='form-control' name='address'/>
+                                <input type='text' class='form-control' name='address' value="{{ old('address') }}"/>
                                     <div class='row justify-content-center'>
                                         <button type='submit' class='btn btn-primary w-25 mt-3'>購入</button>
                                     </div>

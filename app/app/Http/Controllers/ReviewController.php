@@ -7,6 +7,7 @@ use App\Cart;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\ReviewsData;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
@@ -37,7 +38,7 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Review $review)
+    public function store(ReviewsData $request, Review $review)
     {
         $review->user_id = Auth::user()->id;
         $review->product_id = $request->product_id;

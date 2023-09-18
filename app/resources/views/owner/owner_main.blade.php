@@ -44,11 +44,25 @@
             <h5>売上</h5>
         </div>
         <div class="col-md-8">
-            <form action="{{ route('products.create') }}" method="get">
-                <button type="submit" class="btn btn-primary">
-                    {{ __('a') }}
-                </button>
-            </form>
+                <table border="1">
+                    <tr>
+                    <th>商品ID</th>
+                    <th>商品名</th>
+                    <th>数量</th>
+                    <th>合計金額</th>
+                    <th>購入日時</th>
+                    </tr>
+                    @foreach($carts as $cart)
+                   
+                    <tr>
+                    <td>{{ $cart->product_id }}</td>
+                    <td>{{ $cart->product['name'] }}</td>
+                    <td>{{ $cart->number }}</td>
+                    <td>{{ $cart->number*$cart->product['amount'] }}</td>
+                    <td>{{ $cart->updated_at }}</td>
+                    </tr>
+                    @endforeach
+                </table>
         </div>
     </div>
             

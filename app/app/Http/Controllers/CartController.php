@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateData;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -97,6 +98,10 @@ class CartController extends Controller
     {
 
         $cart = Cart::find($id);
+
+        if(is_null($cart)){
+            abort(404);
+        }
         
         
         return view('user.buy_conf', [
@@ -112,7 +117,7 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     //商品購入処理
-    public function update(Request $request, Cart $cart)
+    public function update(CreateData $request, Cart $cart)
     {
         $cart->category = 1;
         $cart->name = $request->name;

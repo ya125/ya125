@@ -30,6 +30,18 @@
        
         
     </div>
+
+    @if($like_model->like_exist(Auth::user()->id,$product->id))
+        <p class="favorite-marke">
+        <a class="js-like-toggle loved" href="" data-productid="{{ $product->id }}"><i class="fas fa-heart fa-2x heart"></i></a>
+        <span class="likeCount">{{$product->like_count}}</span>
+        </p>
+        @else
+        <p class="favorite-marke">
+        <a class="js-like-toggle" href="" data-productid="{{ $product->id }}"><i class="fas fa-heart fa-2x heart"></i></a>
+        <span class="likeCount">{{$product->like_count}}</span>
+        </p>
+    @endif
     
 
     <div class="row justify-content-center">
@@ -84,3 +96,45 @@
 
 @endsection
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+ <script>
+     $(function () {
+    var like = $('.js-like-toggle');
+    var likeProductId;
+    
+    like.on('click', function () {
+        var $this = $(this);
+        likeProductId = $this.data('productid');
+        $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/ajaxlike',  //routeの記述
+                type: 'POST', //受け取り方法の記述（GETもある）
+                data: {
+                    'product_id': likeProductId //コントローラーに渡すパラメーター
+                },
+        })
+    
+            // Ajaxリクエストが成功した場合
+            .done(function (data) {
+    //lovedクラスを追加
+                $this.toggleClass('loved'); 
+    
+    //.likesCountの次の要素のhtmlを「data.productLikesCount」の値に書き換える
+                $this.next('.likeCount').html(data.productLikeCount); 
+    
+            })
+            // Ajaxリクエストが失敗した場合
+            .fail(function (data, xhr, err) {
+    //ここの処理はエラーが出た時にエラー内容をわかるようにしておく。
+    //とりあえず下記のように記述しておけばエラー内容が詳しくわかります。笑
+                console.log('エラー');
+                console.log(err);
+                console.log(xhr);
+            });
+        
+        return false;
+    });
+    });
+ </script>

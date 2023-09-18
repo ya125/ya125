@@ -20,7 +20,7 @@
                         {{ __('購入履歴') }}
                     </button>
                 </form>
-                <form action="" method="get">
+                <form action="{{ route('products.good') }}" method="get">
                     <button type="submit" class="btn btn-primary">
                         {{ __('お気に入り') }}
                     </button>

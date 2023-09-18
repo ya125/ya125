@@ -9,14 +9,23 @@
                 </div>
                 <div class="card-body">
                     <div class="card-body">
+                    @if($errors->any())
+                        <div class='alert alert-danger'>
+                            <ul>
+                                @foreach($errors->all() as $message)
+                                <li>{{ $message }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <label for='name'>商品名</label>
-                                <input type='text' class='form-control' name='name'/>
+                                <input type='text' class='form-control' name='name' value="{{ old('name') }}"/>
                             <label for='amount' class='mt-2'>金額</label>
-                                <input type='text' class='form-control' name='amount'/>
+                                <input type='text' class='form-control' name='amount' value="{{ old('amount') }}"/>
                             <label for='text' class='mt-2'>商品説明</label>
-                                <textarea class='form-control' name='text'></textarea>
+                                <textarea class='form-control' name='text'>{{ old('text') }}</textarea>
                             <label for='image' class='mt-2'>画像</label>
                                 
                                     

@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Cart;
+use App\Like;
+use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductsData;
+use App\Http\Requests\Products_editData;
 use Illuminate\Support\Facades\Auth;
+use InterventionImage;
 
 class ProductController extends Controller
 {
@@ -17,10 +23,16 @@ class ProductController extends Controller
     {
         $product = new Product;
         
-        $all = $product->all();
+        $all = $product->where('del_flg', '=', '0')->get();
+
+      
+
+        $cart = Cart::where('category', '=', '1')->get();
 
         return view('owner.owner_main', [
             'products' => $all,
+            'carts' => $cart,
+
         ]);
     }
 
@@ -42,7 +54,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     // 商品の新規登録の処理をするメソッド
-    public function store(Request $request)
+    public function store(ProductsData $request)
     {
 
         // ディレクトリ名
@@ -53,8 +65,7 @@ class ProductController extends Controller
 
         // 取得したファイル名で保存
         $request->file('image')->storeAs('public/' . $dir, $file_name);
-
-     
+        
 
         $product = new Product;
 
@@ -82,7 +93,9 @@ class ProductController extends Controller
     // 詳細ページの表示のメソッド
     public function show(Product $product)
     {
-        $products = Product::where('id' ,$product['id'])->first();
+        $products = Product::withCount('like')->find($product->id);
+       
+        $like_model = new Like;
         
         if(Auth::user()->role == 0){
             return view('owner.ownerpost_detail', [
@@ -91,9 +104,52 @@ class ProductController extends Controller
         } else {
             return view('user.post_detail', [
                 'product' => $products,
+                'like_model'=>$like_model,
             ]);
         }
        
+    }
+
+    public function ajaxlike(Request $request)
+    {
+        $id = Auth::user()->id;
+        $product_id = $request->product_id;
+        $like = new Like;
+        $product = Product::findOrFail($product_id);
+
+        // 空でない（既にいいねしている）なら
+        if ($like->like_exist($id, $product_id)) {
+            //likesテーブルのレコードを削除
+            $like = Like::where('product_id', $product_id)->where('user_id', $id)->delete();
+        } else {
+            //空（まだ「いいね」していない）ならlikesテーブルに新しいレコードを作成する
+            $like = new Like;
+            $like->product_id = $request->product_id;
+            $like->user_id = Auth::user()->id;
+            $like->save();
+        }
+    
+        //loadCountとすればリレーションの数を○○_countという形で取得できる（今回の場合はいいねの総数）
+        $productLikeCount = $product->loadCount('like')->like_count;
+
+        //一つの変数にajaxに渡す値をまとめる
+        //今回ぐらい少ない時は別にまとめなくてもいいけど一応。笑
+        $json = [
+            'productLikeCount' => $productLikeCount,
+        ];
+        //下記の記述でajaxに引数の値を返す
+        return response()->json($json);
+    }
+
+    // お気に入り一覧
+    public function good()
+    {
+        $like = Like::where('user_id', \Auth::user()->id)->get();
+       
+        
+        return view('mypage.good', [
+            'likes' => $like,
+        ]);
     }
 
     /**
@@ -120,7 +176,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     // 編集のページ遷移を処理をするメソッド
-    public function update(Request $request, Product $product)
+    public function update(Products_editData $request, Product $product)
     {
         // ディレクトリ名
         $dir = 'sample';
@@ -165,7 +221,14 @@ class ProductController extends Controller
     {
         $products = Product::where('id' ,$product['id'])->first();
 
-        $products->delete();
+
+        $record = $products;
+
+        $record->del_flg = 1;
+        
+        $record->save();
+
+
 
         return redirect('products');
     

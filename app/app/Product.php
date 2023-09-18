@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['name', 'amount', 'text', 'image', 'user_id'];
+    protected $fillable = ['name', 'amount', 'text', 'image', 'user_id', 'del_flg'];
 
     public function cart() {
         return $this->hasMany('App\Cart');
@@ -18,5 +18,9 @@ class Product extends Model
 
     public function review() {
         return $this->hasMany('App\Review');
+    }
+
+    public function like() {
+        return $this->hasMany('App\Like');
     }
 }

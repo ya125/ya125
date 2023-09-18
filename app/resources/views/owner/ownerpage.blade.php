@@ -10,19 +10,29 @@
                 <h1>管理者ページ</h1>
                 <!-- 画面遷移はbutton -->
 
-                <form action="{{ route('user.list') }}" method="get">
-                <button type="button" class="btn btn-primary">
-                    {{ __('ユーザー検索') }}
-                </button>
-                </form>
-
-
+            
                 <form action="{{ route('products.index') }}" method="get">
                     <button type="submit" class="btn btn-primary">
                         {{ __('商品管理') }}
                     </button>
                 </form>
- 
+
+                <h5>ユーザーリスト</h5>
+
+                <table border="1">
+                    <tr>
+                    <th>ID</th>
+                    <th>ユーザー名</th>
+                    <th>メールアドレス</th>
+                    </tr>
+                    @foreach($users as $user)
+                    <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    </tr>
+                    @endforeach
+                </table>
             </div>
         </div>
     </div>

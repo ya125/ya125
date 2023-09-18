@@ -9,6 +9,15 @@
                 </div>
                 <div class="card-body">
                     <div class="card-body">
+                         @if($errors->any())
+                        <div class='alert alert-danger'>
+                            <ul>
+                                @foreach($errors->all() as $message)
+                                <li>{{ $message }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <form action="{{ route('users.update',['user' => Auth::user()->id]) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
@@ -17,17 +26,16 @@
                             <label for='email' class='mt-2'>メールアドレス</label>
                                 <input type='email' class='form-control' name='email' value="{{Auth::user()->email}}"/>
                                     <div class='row justify-content-center'>
-                                        <button type='submit' class='btn btn-primary w-25 mt-3'>編集する</button>
+                                    <input type="submit" value="編集"  class="btn btn-primary">
                                     </div>
-                                    <form action="{{ route('users.destroy',['user' => Auth::user()->id]) }}" method="post">
+                        </form>
+                        <form action="{{ route('users.destroy',['user' => Auth::user()->id]) }}" method="post">
                                     @csrf
                                     @method('delete')
                                         <div class='row justify-content-center'>
-                                            <button type='submit' class='btn btn-primary w-25 mt-3'>削除する</button>
+                                        <input type="submit" value="削除" onclick='return confirm("本当に削除しますか？")' class="btn btn-primary">
                                         </div>
                                     </form>
-                           
-                        </form>
                     </div>
                 </div>
             </div>

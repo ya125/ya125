@@ -7,7 +7,7 @@
         <div class="col-md-8">
         <div class="card-body">
                     <div class="card-body">
-                        <form action="{{route('home')}}" method="get" enctype="multipart/form-data">
+                        <form action="{{route('top')}}" method="get" enctype="multipart/form-data">
                             @csrf
                             <label for='name'>キーワード</label>
                                 <input type='text' class='form-control' name='word' value="{{ $word }}"/>
@@ -39,7 +39,6 @@
     </div>
     <div class="col-md-8">
     <div class="row justify-content-center">
-    
         
         @foreach($products as $product) 
         <div class="row">
@@ -63,7 +62,6 @@
         
     </div>
     </div>
-
    
             
                 

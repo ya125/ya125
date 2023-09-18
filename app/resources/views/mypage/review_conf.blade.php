@@ -9,6 +9,15 @@
                 </div>
                 <div class="card-body">
                     <div class="card-body">
+                    @if($errors->any())
+                        <div class='alert alert-danger'>
+                            <ul>
+                                @foreach($errors->all() as $message)
+                                <li>{{ $message }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <form action="{{ route('reviews.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             
@@ -31,9 +40,9 @@
                                 </div>
                             </div> 
                             <label for='title'>タイトル</label>
-                                <input type='text' class='form-control' name='title'/>
+                                <input type='text' class='form-control' name='title' value="{{ old('title') }}"/>
                             <label for='text' class='mt-2'>コメント</label>
-                                <input type='text' class='form-control' name='text'/>
+                                <input type='text' class='form-control' name='text' value="{{ old('text') }}"/>
                                 <input type='hidden' class='form-control' name='product_id' value="{{$carts['product_id']}}">
                                     <div class='row justify-content-center'>
                                         <button type='submit' class='btn btn-primary w-25 mt-3'>投稿する</button>

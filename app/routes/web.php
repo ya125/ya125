@@ -1,6 +1,10 @@
 <?php
 
+use App\Product;
+use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +18,48 @@ use App\Http\Controllers\HomeController;
 */
 
 //viewの()の間に書くのは、resourse/viewsフォルダー配下のblade名を書く
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', function (Request $request) {
+    $product = new Product;
+
+    $word = $request->word; 
+    $from = $request->from;
+    $to = $request->to;
+    if(isset($word)){
+        $product = $product->where('name', 'LIKE', '%'.$word.'%')
+        ->orWhere('text', 'LIKE', '%'.$word.'%');
+    }
+    
+//    if(isset($from) && isset($to)){
+//         $product = $product->where('amount', [$from, $to]);
+//    }
+    if(isset($from)){
+        $product = $product->where('amount', '>=', $from);
+    }
+    if(isset($to)){
+        $product = $product->where('amount', '<=', $to);
+    }
+    $all = $product->where('del_flg', '=', '0')->get();
+    return view('user.toppage', [
+        'products' => $all,
+        'word' => $word,
+        'from' => $from,
+        'to' => $to,
+    ]);
+    
+
+})->name('top');
+
+Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/', 'HomeController@toppage')->name('toppage');
 
 // Route::get('/', [ResourceController::class, 'index']);
 
 // resouceのコントローラーのルート
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function(){
+
+
 
 Route::get('/ownermain_form', [HomeController::class, 'ownermainForm'])->name('owner.main');
 Route::get('/user_list', [HomeController::class, 'userlist'])->name('user.list');
@@ -32,3 +68,12 @@ Route::resource('products', 'ProductController');
 Route::resource('carts', 'CartController');
 Route::resource('users', 'UserController');
 Route::resource('reviews', 'ReviewController');
+
+
+
+Route::post('/ajaxlike', 'ProductController@ajaxlike')->name('products.ajaxlike');
+
+
+Route::get('/good', 'ProductController@good')->name('products.good');
+
+});

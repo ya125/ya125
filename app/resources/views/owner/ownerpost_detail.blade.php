@@ -43,11 +43,10 @@
         </div>
         <div class="col-md-8">
             <form action="{{ route('products.destroy',['product' => $product['id']]) }}" method="post">
+
             @csrf
             @method('delete')
-                <button type="submit" class="btn btn-primary">
-                    {{ __('削除') }}
-                </button>
+            <input type="submit" value="削除" onclick='return confirm("本当に削除しますか？")' class="btn btn-primary">
             </form>
         </div>
     </div>
