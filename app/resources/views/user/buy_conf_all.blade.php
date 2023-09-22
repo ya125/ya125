@@ -18,27 +18,30 @@
                             </ul>
                         </div>
                         @endif
-                        <form action="{{ route('carts.update',['cart' => $carts['id']]) }}" method="post" enctype="multipart/form-data">
+                        
+                            @foreach($carts as $cart) 
+                            <form action="{{ route('buy.conf.all',['id' => $cart['id']]) }}" method="post" enctype="multipart/form-data">
                             @csrf
-                            @method('patch')
+                            
                             <div class="row">
                                 <div class="m-2">
                                     <div class="col-md-8">
                                             
                                             <div class="card" style="width: 18rem;">
                                             
-                                                <img class="img-fluid" src="{{ asset( $carts->product['image'] ) }}" style=" width: 300px; height: 200px; object-fit: cover; ">
+                                                <img class="img-fluid" src="{{ asset( $cart->product['image'] ) }}" style=" width: 300px; height: 200px; object-fit: cover; ">
                                                 
                                                     <div class="card-body">
-                                                        <h5 class="card-title">{{ $carts->product['name'] }}</h5>
-                                                        <p class="card-text">{{ $carts->product['amount'] }}円</p>
-                                                        <input type="number" name='number' min='1' value="{{$carts['number']}}">
+                                                        <h5 class="card-title">{{ $cart->product['name'] }}</h5>
+                                                        <p class="card-text">{{ $cart->product['amount'] }}円</p>
+                                                        <input type="number" name='number' min='1' value="{{$cart['number']}}">
                                                     </div>
                                             </div>
                                         
                                     </div>
                                 </div>
                             </div> 
+                            @endforeach
                             
                             <label for='name'>氏名</label>
                                 <input type='text' class='form-control' name='name' value="{{ old('name') }}"/>

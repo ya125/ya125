@@ -28,7 +28,7 @@
                                             
                                             <div class="card" style="width: 18rem;">
                                             
-                                                <img class="img-fluid" src="{{ asset( $carts->product['image'] ) }}">
+                                                <img class="img-fluid" src="{{ asset( $carts->product['image'] ) }}" style=" width: 300px; height: 200px; object-fit: cover; ">
                                                 
                                                     <div class="card-body">
                                                         <h5 class="card-title">{{ $carts->product['name'] }}</h5>

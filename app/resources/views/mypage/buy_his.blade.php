@@ -17,7 +17,7 @@
                    
                         <div class="card" style="width: 18rem;">
                                 <a href="{{ route('products.show',['product' => $cart->product['id']]) }}" method="get">
-                                    <img class="img-fluid" src="{{ asset( $cart->product['image']) }}">
+                                    <img class="img-fluid" src="{{ asset( $cart->product['image']) }}" style=" width: 300px; height: 200px; object-fit: cover; ">
                                 </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $cart->product['name'] }}</h5>

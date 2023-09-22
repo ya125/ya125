@@ -18,8 +18,8 @@ class CreateCartTable extends Migration
             $table->integer('user_id');
             $table->integer('product_id');
             $table->string('name', '30')->nullable();
-            $table->integer('tel')->nullable();
-            $table->integer('post_code')->nullable();
+            $table->string('tel', '11')->nullable();
+            $table->string('post_code', '7')->nullable();
             $table->string('address', '100')->nullable();
             $table->integer('category')->default(0);
             $table->integer('number');

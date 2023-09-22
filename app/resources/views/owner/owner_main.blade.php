@@ -24,11 +24,11 @@
                         
                         <div class="card" style="width: 18rem;">
                             <a href="{{ route('products.show',['product' => $product['id']]) }}" method="get">
-                                <img class="img-fluid" src="{{ asset($product['image']) }}">
+                                <img class="img-fluid" src="{{ asset($product['image']) }}" style=" width: 300px; height: 200px; object-fit: cover; ">
                             </a>
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $product['name'] }}</h5>
-                                    <p class="card-text">{{ $product['amount'] }}</p>
+                                    <p class="card-text">{{ $product['amount'] }}円</p>
                                 </div>
                         </div>
                     

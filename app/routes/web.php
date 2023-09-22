@@ -1,5 +1,6 @@
 <?php
 
+use App\Cart;
 use App\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -49,6 +50,21 @@ Route::get('/', function (Request $request) {
 
 })->name('top');
 
+    // 詳細ページの表示のメソッド
+    Route::get('/detail/{id}', function($id)
+    {
+       
+       
+        $product = Product::find($id);
+      
+            return view('user.toppage_detail', [
+                'product' => $product,
+                
+            ]);
+        
+       
+    })->name('top_detail');
+
 Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/', 'HomeController@toppage')->name('toppage');
 
@@ -66,6 +82,8 @@ Route::get('/user_list', [HomeController::class, 'userlist'])->name('user.list')
 
 Route::resource('products', 'ProductController');
 Route::resource('carts', 'CartController');
+Route::get('/buy_all', 'CartController@buy_all')->name('buy.all');
+Route::post('/buy_conf_all/{id}', 'CartController@buy_conf_all')->name('buy.conf.all');
 Route::resource('users', 'UserController');
 Route::resource('reviews', 'ReviewController');
 

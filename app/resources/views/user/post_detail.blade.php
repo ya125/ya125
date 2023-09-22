@@ -3,9 +3,7 @@
 @section('content')
 
 <div class="container">
-    <div class="row justify-content-center">
-        
-    </div>
+   
     <div class="row justify-content-center">
         
 
@@ -15,7 +13,7 @@
                         
                         <div class="card" style="width: 18rem;">
                            
-                            <img class="img-fluid" src="{{ asset($product->image) }}">
+                            <img class="img-fluid" src="{{ asset($product->image) }}" style=" width: 300px; height: 200px; object-fit: cover; ">
                            
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $product->name }}</h5>
@@ -30,33 +28,43 @@
        
         
     </div>
-
-    @if($like_model->like_exist(Auth::user()->id,$product->id))
-        <p class="favorite-marke">
-        <a class="js-like-toggle loved" href="" data-productid="{{ $product->id }}"><i class="fas fa-heart fa-2x heart"></i></a>
-        <span class="likeCount">{{$product->like_count}}</span>
-        </p>
-        @else
-        <p class="favorite-marke">
-        <a class="js-like-toggle" href="" data-productid="{{ $product->id }}"><i class="fas fa-heart fa-2x heart"></i></a>
-        <span class="likeCount">{{$product->like_count}}</span>
-        </p>
-    @endif
-    
-
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <form action="{{ route('carts.show',['cart' => $product['id']]) }}" method="get">
-                @csrf
-                <input type="number" name='number' min='1' value='1'>
-                  
-                
-                <button type="submit" class="btn btn-primary">
-                    {{ __('カートに入れる') }}
-                </button>
-            </form>
-        </div>
+        
+
+        <div class="row">
+            <div class="m-2">
+                <div class="col-md-8">
+
+                    @if($like_model->like_exist(Auth::user()->id,$product->id))
+                        <p class="favorite-marke">
+                        <a class="js-like-toggle loved" href="" data-productid="{{ $product->id }}"><i class="fas fa-heart fa-2x heart"></i></a>
+                        <span class="likeCount">{{$product->like_count}}</span>
+                        </p>
+                        @else
+                        <p class="favorite-marke">
+                        <a class="js-like-toggle" href="" data-productid="{{ $product->id }}"><i class="fas fa-heart fa-2x heart"></i></a>
+                        <span class="likeCount">{{$product->like_count}}</span>
+                        </p>
+                    @endif
+                    
+                </div>
+                        
+                    <form action="{{ route('carts.show',['cart' => $product['id']]) }}" method="get">
+                        @csrf
+                        <input type="number" name='number' min='1' value='1'>
+                        
+                        
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('カートに入れる') }}
+                            </button>
+                    </form>
+      
+            </div>
+        </div> 
+       
+        
     </div>
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h5>レビュー</h5>

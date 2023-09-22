@@ -28,7 +28,7 @@ class Products_editData extends FormRequest
              'name' => 'required',
              'amount' => 'required|integer',
              'text' => 'required',
-             'image' => 'required',
+             
         ];
     }
 }

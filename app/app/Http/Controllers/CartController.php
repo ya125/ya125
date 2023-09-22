@@ -108,6 +108,34 @@ class CartController extends Controller
             'carts' => $cart,
         ]);
     }
+    public function buy_all()
+    {
+        
+        $cart = Cart::where('user_id', \Auth::user()->id)->where('category', '=', '0')->get();
+       
+        
+        return view('user.buy_conf_all', [
+            'carts' => $cart,
+        ]);
+    }
+     //商品購入処理
+     public function buy_conf_all(CreateData $request, Cart $id)
+     {
+        dd($request);
+         $id->category = 1;
+         $id->name = $request->name;
+         $id->tel = $request->tel;
+         $id->post_code = $request->post_code;
+         $id->address = $request->address;
+         $id->number = $request->number;
+ 
+         
+         
+         $id->save();
+        
+         return redirect('carts');
+     }
+
 
     /**
      * Update the specified resource in storage.

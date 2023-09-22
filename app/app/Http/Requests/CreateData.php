@@ -26,8 +26,8 @@ class CreateData extends FormRequest
         return [
             // 購入バリデーション
             'name' => 'required|max:30',
-            'tel' => 'required|integer',
-            'post_code' => 'required|integer',
+            'tel' => 'required|numeric',
+            'post_code' => 'required|numeric',
             'address' => 'required|max:100',
         ];
     }

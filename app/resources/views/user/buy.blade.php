@@ -4,9 +4,13 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h3>カート</h3>
-        </div>
+    
+       
+             <div class="col-md-8">
+                 <h3>カート</h3>
+                 
+            </div>
+       
     </div>
     <div class="row justify-content-center">
         
@@ -16,7 +20,7 @@
                 <div class="col-md-8">
                        
                         <div class="card" style="width: 18rem;">
-                                <img class="img-fluid" src="{{ asset( $cart->product['image']) }}">
+                                <img class="img-fluid" src="{{ asset( $cart->product['image']) }}" style=" width: 300px; height: 200px; object-fit: cover; ">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $cart->product['name'] }}</h5>
                                     <p class="card-text">{{ $cart->product['amount'] }}円</p>
@@ -35,7 +39,8 @@
             </div>
         </div> 
         @endforeach
-        
+       
+                    
     </div>
 
    

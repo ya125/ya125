@@ -162,6 +162,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $products = Product::where('id' ,$product['id'])->first();
+      
 
         return view('owner.product_edit', [
             'product' => $products,
@@ -192,7 +193,7 @@ class ProductController extends Controller
         $request->file('image')->storeAs('public/' . $dir, $file_name);
         $product->image = 'storage/' . $dir . '/' . $file_name;
         } else {
-            $product->image=$product['image'];
+            $product->image = $product['image'];
         }
         
 
@@ -200,7 +201,7 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->amount = $request->amount;
         $product->text = $request->text;
-
+       
         
         
         $product->save();

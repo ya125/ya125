@@ -32,8 +32,7 @@
                                     <div class='row justify-content-center'>
                                         <button type='submit' class='btn btn-primary w-25 mt-3'>登録</button>
                                     </div>
-                                
-                           
+                            
                         </form>
                     </div>
                 </div>
